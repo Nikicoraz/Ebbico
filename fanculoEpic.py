@@ -10,6 +10,7 @@ edlaunch_path = 'D:/Program Files/Epic Games/EliteDangerous/EDLaunch.exe'
 sottr_path = "D:/Program Files/Epic Games/ShadowoftheTombRaider/SOTTR.exe"
 civ6path = "D:/Program Files/Epic Games/SidMeiersCivilizationVI/2KLauncher/LauncherPatcher.exe"
 rebel_path = "D:/Program Files/Epic Games/RebelGalaxy/RebelGalaxy.exe"
+bio_rem_path = "D:/Program Files/Epic Games/BioshockRemastered/2KLauncher/LauncherPatcher.exe"
 
 # def OttieniCookie(browser : webdriver.Firefox):
 #     global code
@@ -47,7 +48,7 @@ def ottieniCodice(browser = None):
 
     browser.get("https://www.epicgames.com/id/api/redirect?clientId=ec684b8c687f479fadea3cb2ad83f5c6&responseType=code");
     
-    browser.add_cookie({"name": "EPIC_BEARER_TOKEN", "value" : "659a5b1760c34485b88805bceea5161c", "host" : ".epicgames.com"})
+    browser.add_cookie({"name": "EPIC_BEARER_TOKEN", "value" : "a00add2428d04a8c8674b91fe1230e3b", "host" : ".epicgames.com"})
     browser.refresh()
 
     code = json.loads(browser.find_element_by_id("json").text).get("authorizationCode")
@@ -63,7 +64,7 @@ def ottieniCodice(browser = None):
 
     headers = {
         'Content-Type': "application/x-www-form-urlencoded",
-        'Authorization': "basic ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ="
+        'Authorization': "basic ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ6M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ="
         }
 
     conn.request("POST", "/account/api/oauth/token", payload, headers)
@@ -102,7 +103,8 @@ while 1:
             2. Shadow of The Tomb Raider
             3. CivilizationVI
             4. Rebel Galaxy
-            5. Uscire
+            5. Bioshock Remastered
+            6. Uscire
             \nInserire cosa avviare: """)
     if(q == "1"):
         lanciaGioco(edlaunch_path)
@@ -113,7 +115,9 @@ while 1:
         lanciaGioco(civ6path)
     elif q == "4":
         lanciaGioco(rebel_path)
-    elif(q == "5"):
+    elif q == "5":
+        lanciaGioco(bio_rem_path)
+    elif(q == "6"):
         exit()
         
     os.system("cls")
