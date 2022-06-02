@@ -177,6 +177,7 @@ class Auth:
             if self.userdata != None:
                 self.userdata = self.resume_session(self.userdata)
                 json.dump(self.userdata, open('user.json', "w"))
+                print("Autenticato con la sessione precedente...")
                 return self.userdata
             else:
                 raise Exception("No user data")
@@ -184,8 +185,10 @@ class Auth:
             try:
                 try:
                     self.userdata = self.start_session(refresh_token=self.data["refr"])
+                    print("Autenticato con il refresh token...")
                 except:
                     self.userdata = self.start_session(exchange_token=code)
+                    print("Autenticato con l'exchange code...")
                 self.data["refr"] = self.userdata["refresh_token"]
                 json.dump(self.data, open('auth.json', "w"))
                 json.dump(self.userdata, open('user.json', "w"))
