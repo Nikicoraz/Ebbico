@@ -53,12 +53,12 @@ class Auth:
         try:
             self.data = json.load(open('auth.json', "r"))
         except FileNotFoundError:
-            self.data = None
+            self.data = {}
         self._egl_version = '11.0.1-14907503+++Portal+Release-Live'
-        if self.data == None:
-            self.data["sid"] = None
-            self.data["exch"] = None
-            self.data["refr"] = None
+        if self.data == {}:
+            self.data["sid"] = "-1"
+            self.data["exch"] = "-1"
+            self.data["refr"] = "-1"
 
         self.session = requests.session()
         self.session.headers['User-Agent'] = self._user_agent
@@ -121,18 +121,6 @@ class Auth:
             self.data["exch"] = self.auth_sid(self.data["sid"])
         return self.data["exch"]
     
-    def auth(self):
-        if not self.data["exch"]:
-            return False
-        else:
-            self.data = {
-                'sid': self.data["sid"],
-                'exch': self.data["exch"],
-                'refr': ''
-            }
-            json.dump(self.data, open('auth.json', "w"))
-            
-            return True
     
     def start_session(self, refresh_token: str = None, exchange_token: str = None):
         if refresh_token:
@@ -185,13 +173,11 @@ class Auth:
         """
         Handles authentication via exchange code (either retrieved manually or automatically)
         """
-        if not code:
-            self.auth()
-            code = self.data["exch"]
         try:
             if self.userdata != None:
                 self.userdata = self.resume_session(self.userdata)
                 json.dump(self.userdata, open('user.json', "w"))
+                return self.userdata
             else:
                 raise Exception("No user data")
         except:

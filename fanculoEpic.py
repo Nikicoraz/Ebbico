@@ -2,6 +2,7 @@ from utils.auth import Auth
 from enum import Enum
 import os
 
+# Inserire il path dei giochi in questo enum
 class Giochi(Enum):
     ELITE_DANGEROUS             = 'D:/Program Files/Epic Games/EliteDangerous/EDLaunch.exe'
     SHADOW_OF_THE_TOMB_RAIDER   = "D:/Program Files/Epic Games/ShadowoftheTombRaider/SOTTR.exe"
@@ -11,7 +12,10 @@ class Giochi(Enum):
 
 auth = Auth()
 
-auth.auth_code()
+if not auth.auth_code():
+    exit(1)
+
+# Poi inserirli qui manualmente, forse dovrei fare un dizionario e iterarci sopra
 
 while 1:
     q = input("""
@@ -25,7 +29,7 @@ while 1:
     gioco = ""
     if(q == "1"):
         gioco = Giochi.ELITE_DANGEROUS
-        os.system(r"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Elite Dangerous Market Connector.lnk")
+        os.system(r'"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Elite Dangerous Market Connector.lnk"')
     elif(q == "2"):
         gioco = Giochi.SHADOW_OF_THE_TOMB_RAIDER
     elif (q == "3"):
