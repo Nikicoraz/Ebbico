@@ -131,6 +131,8 @@ class Auth:
             params = dict(grant_type='exchange_code',
                         exchange_code=exchange_token,
                         token_type='eg1')
+        else:
+            raise Exception("Token not provided")
         
         r = requests.session().post(f'https://{self._oauth_host}/account/api/oauth/token',
                                 data=params, auth=HTTPBasicAuth())
@@ -187,6 +189,7 @@ class Auth:
                     self.userdata = self.start_session(refresh_token=self.data["refr"])
                     print("Autenticato con il refresh token...")
                 except:
+                    code = self.get_exch()
                     self.userdata = self.start_session(exchange_token=code)
                     print("Autenticato con l'exchange code...")
                 self.data["refr"] = self.userdata["refresh_token"]

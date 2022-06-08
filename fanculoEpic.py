@@ -9,38 +9,23 @@ class Giochi(Enum):
     CIVILIZATION_6              = "D:/Program Files/Epic Games/SidMeiersCivilizationVI/2KLauncher/LauncherPatcher.exe"
     REBEL_GALAXY                = "D:/Program Files/Epic Games/RebelGalaxy/RebelGalaxy.exe"
     BIOSHOCK_REMASTERED         = "D:/Program Files/Epic Games/BioshockRemastered/2KLauncher/LauncherPatcher.exe"
+    WOLFENSTEIN_TNO             = "D:/Program Files/Epic Games/WolfensteinTNO/WolfNewOrder_x64.exe"
 
+
+# Zona no tocca >:(
 auth = Auth()
 
 if not auth.auth_code():
     exit(1)
 
-# Poi inserirli qui manualmente, forse dovrei fare un dizionario e iterarci sopra
-
+lista_giochi = "\n".join(f"{i}: {x.name}" for i, x in enumerate(Giochi, 1))
 while 1:
-    q = input("""
-            1. Elite dangerous
-            2. Shadow of The Tomb Raider
-            3. CivilizationVI
-            4. Rebel Galaxy
-            5. Bioshock Remastered
-            6. Uscire
-            \nInserire cosa avviare: """)
+    q = input(f"""------------\n{lista_giochi}\n{len(Giochi) + 1}: Esci\nInserire cosa avviare: """)
     gioco = ""
-    if(q == "1"):
-        gioco = Giochi.ELITE_DANGEROUS
-        os.system(r'"C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Elite Dangerous Market Connector.lnk"')
-    elif(q == "2"):
-        gioco = Giochi.SHADOW_OF_THE_TOMB_RAIDER
-    elif (q == "3"):
-        gioco  = Giochi.CIVILIZATION_6
-    elif q == "4":
-        gioco = Giochi.REBEL_GALAXY
-    elif q == "5":
-        gioco = Giochi.BIOSHOCK_REMASTERED
-    elif(q == "6"):
-        exit()
-    
-    auth.launch_game(gioco.value)
-    
+    gioco = list(Giochi)[int(q) - 1] if q.isdigit() and int(q) <= len(Giochi) else ""
+
+    if gioco != "":
+        auth.launch_game(gioco.value)
+    if int(q) == len(Giochi) + 1:
+        exit(0)
     os.system("cls")
